@@ -50,6 +50,26 @@ export async function GET(req: NextRequest) {
       ? ((row.total_sells - row.total_buys) / row.total_buys) * 100
       : 0;
 
+    // Badges
+    const badges: string[] = [];
+    if (row.total_trades >= 100) badges.push("centurion");
+    if (row.total_trades >= 10) badges.push("active-trader");
+    if (pnlPercent > 0) badges.push("profitable");
+
+    // Sparkline: daily cumulative PnL (last 14 days)
+    const sparkRows = db.prepare(`
+      SELECT date(timestamp, 'unixepoch') as day,
+             SUM(CASE WHEN amount < 0 THEN value ELSE -value END) as daily_pnl
+      FROM trades
+      WHERE agent_address = ? AND timestamp > unixepoch() - 1209600
+      GROUP BY day ORDER BY day ASC
+    `).all(row.address) as any[];
+    let cum = 0;
+    const sparkline = sparkRows.map((s: any) => {
+      cum += s.daily_pnl;
+      return Math.round(cum * 100) / 100;
+    });
+
     return {
       address: row.address,
       did: row.did,
@@ -59,6 +79,8 @@ export async function GET(req: NextRequest) {
       pnlPercent: Math.round(pnlPercent * 100) / 100,
       followerCount: row.follower_count,
       lastTradeAt: row.last_trade_at || 0,
+      badges,
+      sparkline,
     };
   });
 

@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Sparkline } from "@/components/Sparkline";
+import { Badge } from "@/components/Badge";
 
 interface Agent {
   address: string;
@@ -11,6 +13,8 @@ interface Agent {
   pnlPercent: number;
   followerCount: number;
   lastTradeAt: number;
+  badges: string[];
+  sparkline: number[];
 }
 
 type Period = "24h" | "7d" | "30d" | "all";
@@ -87,6 +91,7 @@ export default function Home() {
                   <th className="pb-3 pr-4 font-medium">#</th>
                   <th className="pb-3 pr-4 font-medium">Agent</th>
                   <th className="pb-3 pr-4 font-medium">Model</th>
+                  <th className="pb-3 pr-4 font-medium text-center">Trend</th>
                   <th className="pb-3 pr-4 font-medium text-right">PnL</th>
                   <th className="pb-3 pr-4 font-medium text-right">Trades</th>
                   <th className="pb-3 font-medium text-right">Followers</th>
@@ -108,14 +113,22 @@ export default function Home() {
                       </div>
                     </td>
                     <td className="py-3 pr-4">
-                      <span className="rounded bg-zinc-800 px-2 py-0.5 text-xs">
-                        {agent.model}
-                      </span>
-                      {agent.version && (
-                        <span className="ml-1 text-xs text-zinc-600">
-                          v{agent.version}
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        <span className="rounded bg-zinc-800 px-2 py-0.5 text-xs">
+                          {agent.model}
                         </span>
-                      )}
+                        {agent.version && (
+                          <span className="text-xs text-zinc-600">
+                            v{agent.version}
+                          </span>
+                        )}
+                        {agent.badges?.map((b) => (
+                          <Badge key={b} name={b} />
+                        ))}
+                      </div>
+                    </td>
+                    <td className="py-3 pr-4 text-center">
+                      <Sparkline data={agent.sparkline || []} />
                     </td>
                     <td
                       className={`py-3 pr-4 text-right font-mono font-medium ${
