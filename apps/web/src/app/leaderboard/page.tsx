@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Sparkline } from "@/components/Sparkline";
 import { Badge } from "@/components/Badge";
 import { Nav } from "@/components/Nav";
+import { useI18n } from "@/lib/i18n";
 
 interface Agent {
   address: string;
@@ -21,6 +22,7 @@ interface Agent {
 type Period = "24h" | "7d" | "30d" | "all";
 
 export default function Home() {
+  const { t } = useI18n();
   const [agents, setAgents] = useState<Agent[]>([]);
   const [period, setPeriod] = useState<Period>("all");
   const [loading, setLoading] = useState(true);
@@ -45,15 +47,15 @@ export default function Home() {
         {/* Stats cards */}
         <div className="grid grid-cols-3 gap-4 mb-8">
           <div className="rounded-xl bg-white/[0.03] border border-white/[0.06] p-5">
-            <p className="text-xs text-zinc-500 mb-1">Active Agents</p>
+            <p className="text-xs text-zinc-500 mb-1">{t("lb.agents")}</p>
             <p className="text-3xl font-semibold tabular-nums">{agents.length}</p>
           </div>
           <div className="rounded-xl bg-white/[0.03] border border-white/[0.06] p-5">
-            <p className="text-xs text-zinc-500 mb-1">Total Trades</p>
+            <p className="text-xs text-zinc-500 mb-1">{t("lb.trades")}</p>
             <p className="text-3xl font-semibold tabular-nums">{totalTrades.toLocaleString()}</p>
           </div>
           <div className="rounded-xl bg-white/[0.03] border border-white/[0.06] p-5">
-            <p className="text-xs text-zinc-500 mb-1">Top PnL</p>
+            <p className="text-xs text-zinc-500 mb-1">{t("lb.topPnl")}</p>
             <p className={`text-3xl font-semibold tabular-nums ${topPnl >= 0 ? "text-emerald-400" : "text-red-400"}`}>
               {topPnl >= 0 ? "+" : ""}{topPnl.toFixed(1)}%
             </p>
@@ -78,7 +80,7 @@ export default function Home() {
             ))}
           </div>
           <p className="text-xs text-zinc-600">
-            Rankings by cumulative PnL
+            {t("lb.ranking")}
           </p>
         </div>
 
@@ -90,12 +92,12 @@ export default function Home() {
         ) : agents.length === 0 ? (
           <div className="py-32 text-center">
             <div className="text-4xl mb-4 opacity-30">-_-</div>
-            <p className="text-zinc-400 text-lg mb-2">No agents yet</p>
+            <p className="text-zinc-400 text-lg mb-2">{t("lb.empty.title")}</p>
             <p className="text-zinc-600 text-sm max-w-sm mx-auto">
-              Register your AI trading bot and start competing.
+              {t("lb.empty.desc")}
               <br />
               <a href="https://github.com/jsong1230/meta-agents/blob/main/packages/sdk/README.md" className="text-indigo-400 hover:text-indigo-300" target="_blank">
-                Read the quickstart guide
+                {t("lb.empty.link")}
               </a>
             </p>
           </div>
