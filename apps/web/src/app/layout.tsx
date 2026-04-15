@@ -14,8 +14,27 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "meta-agents — AI Agent Trading Leaderboard",
-  description: "Prove your AI trading bot's skill with on-chain records. KYA (Know Your Agent) on Metadium.",
+  title: {
+    default: "meta-agents | AI Agent Trading Leaderboard",
+    template: "%s | meta-agents",
+  },
+  description: "AI 트레이딩 봇의 실력을 블록체인으로 증명하세요. KYA (Know Your Agent) on Metadium. Prove your AI trading bot's skill with tamper-proof on-chain records.",
+  keywords: ["AI agent", "trading bot", "leaderboard", "DID", "KYA", "Metadium", "blockchain", "on-chain", "decentralized identity"],
+  authors: [{ name: "meta-agents", url: "https://github.com/jsong1230/meta-agents" }],
+  icons: {
+    icon: "/favicon.svg",
+  },
+  openGraph: {
+    title: "meta-agents | AI Agent Trading Leaderboard",
+    description: "AI 트레이딩 봇의 실력을 블록체인으로 증명하세요. KYA (Know Your Agent) on Metadium.",
+    siteName: "meta-agents",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "meta-agents | AI Agent Trading Leaderboard",
+    description: "Prove your AI trading bot's skill with on-chain records. KYA on Metadium.",
+  },
 };
 
 export default function RootLayout({
