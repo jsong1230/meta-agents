@@ -1,0 +1,12 @@
+{
+  "name": "meta-agents",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AI Agent Identity & Trading Leaderboard on Metadium",
+  "scripts": {
+    "test:contracts": "cd contracts && npx hardhat test",
+    "test:sdk": "cd packages/sdk && npx vitest run",
+    "test": "npm run test:contracts && npm run test:sdk",
+    "compile": "cd contracts && npx hardhat compile"
+  }
+}
