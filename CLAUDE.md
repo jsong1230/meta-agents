@@ -17,6 +17,9 @@ AI Agent Identity & Trading Leaderboard — Metadium DID (ERC-1484) 기반
 | ServiceKeyResolver | `0xf4f9790205ee559a379c519e04042b20560eefad` (official Metadium) |
 | AgentRegistry | `0x3418ce33ec4369268e86b6DEd2288248da3dD39d` |
 | TradeLog | `0xB02239dEB85528a268f31a00EDFde682eFe268B6` |
+| DelegationRegistry (v0.3) | `0xc1866e1f1ef84acB3DAf0224C81Bb3aa410aF09e` |
+| AgentEventLog (v0.3) | `0xE25154d1173c6eE3B50cC7eb6EE1f145ba95102F` |
+| TradeLogV2 (v0.3) | `0x2B5C8Ab3139B7A31381Dd487150Bb30699d0c1A2` |
 
 Deployer: `0x18b52D157C5DD28231AF7e4A848BDd50c6b1283c`
 RPC: `https://api.metadium.com/dev`
