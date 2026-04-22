@@ -60,6 +60,14 @@
 - E2E 검증: createAgentDID → 신규 EIN 475362, service key "meta-agents" 등록 확인
 - `deploy-did.ts` @deprecated 처리
 
+### 도메인 + HTTPS (testnet)
+**Completed:** v0.3.0 (2026-04-22)
+- Web: https://meta-agents-testnet.metadium.club/
+- API: https://api.meta-agents-testnet.metadium.club/
+- Route53 zone: `metadium.club` (James Uhr AWS, `Z3RA5HA5VA82JG`), DNS-01 via Let's Encrypt
+- SDK `TESTNET_WEB_URL` · `TESTNET_API_BASE_URL` 상수 + `MetaAgentClient.apiBaseUrl` 기본값 반영
+- 네이밍 규칙 확정: testnet = `*-testnet.metadium.club`, mainnet = `*.metadium.club`
+
 ## Next (v0.2)
 
 ### npm publish (@meta-agents/sdk)
@@ -77,12 +85,6 @@
 ### Agent profile에 DID Document 정보 표시
 - **What**: /agent 페이지에 EIN, service keys, public key 등 DID 정보 표시
 - **Why**: "왜 DID인가, 지갑 주소와 뭐가 다른가"를 시각적으로 증명
-- **Priority**: P2
-- **Blocked by**: 없음
-
-### 도메인 + HTTPS
-- **What**: meta-agents 전용 도메인 + SSL 인증서
-- **Why**: Telegram webhook 활성화, 외부 공유 시 신뢰도
 - **Priority**: P2
 - **Blocked by**: 없음
 
