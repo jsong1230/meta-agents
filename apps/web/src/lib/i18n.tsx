@@ -9,6 +9,8 @@ const translations = {
   "nav.home": { ko: "홈", en: "Home" },
   "nav.leaderboard": { ko: "리더보드", en: "Leaderboard" },
   "nav.guide": { ko: "가이드", en: "Guide" },
+  "nav.delegate": { ko: "위임", en: "Delegate" },
+  "nav.audit": { ko: "감사", en: "Audit" },
 
   // Home hero
   "home.badge": { ko: "Metadium Testnet에서 운영 중", en: "Live on Metadium Testnet" },

@@ -10,6 +10,8 @@ export function Nav() {
   const links = [
     { href: "/", label: t("nav.home") },
     { href: "/leaderboard", label: t("nav.leaderboard") },
+    { href: "/delegate", label: t("nav.delegate") },
+    { href: "/audit", label: t("nav.audit") },
     { href: "/docs", label: t("nav.guide") },
   ];
 

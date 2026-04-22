@@ -8,6 +8,10 @@ export interface ContractAddresses {
   serviceKeyResolver: string;
   agentRegistry: string;
   tradeLog: string;
+  // v0.3 additions (optional — blank when not yet deployed)
+  delegationRegistry?: string;
+  agentEventLog?: string;
+  tradeLogV2?: string;
 }
 
 export const TESTNET_CONTRACTS: ContractAddresses = {
@@ -18,6 +22,10 @@ export const TESTNET_CONTRACTS: ContractAddresses = {
   // meta-agents own contracts
   agentRegistry: "0x3418ce33ec4369268e86b6DEd2288248da3dD39d",
   tradeLog: "0xB02239dEB85528a268f31a00EDFde682eFe268B6",
+  // v0.3 — deployed 2026-04-22 by scripts/deploy-v03.ts
+  delegationRegistry: process.env.DELEGATION_REGISTRY_ADDRESS || "0xc1866e1f1ef84acB3DAf0224C81Bb3aa410aF09e",
+  agentEventLog: process.env.AGENT_EVENT_LOG_ADDRESS || "0xE25154d1173c6eE3B50cC7eb6EE1f145ba95102F",
+  tradeLogV2: process.env.TRADELOG_V2_ADDRESS || "0x2B5C8Ab3139B7A31381Dd487150Bb30699d0c1A2",
 };
 
 export const MAINNET_CONTRACTS: ContractAddresses = {
