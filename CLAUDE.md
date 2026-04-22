@@ -5,7 +5,9 @@ AI Agent Identity & Trading Leaderboard — Metadium DID (ERC-1484) 기반
 ## Project
 
 - Repo: https://github.com/jsong1230/meta-agents
-- Live: http://100.126.168.26:3100 (110번 서버, PM2)
+- Web: https://meta-agents-testnet.metadium.club/
+- API: https://api.meta-agents-testnet.metadium.club/
+- Internal: http://100.126.168.26:3100 (110번 서버 Tailscale)
 - Telegram: @meta_agents_bot
 
 ## Contracts (Metadium Testnet, Chain ID: 12)
@@ -55,6 +57,28 @@ ssh jsong@10.150.254.110 'cd ~/meta-agents && git pull && cd apps/web && npx nex
 
 - `*/5 * * * *` — mock bot 자동 매매
 - `0 0 * * *` — Telegram 리더보드 알림 (09:00 KST)
+
+## Operations
+
+### Testnet endpoint
+- Web: https://meta-agents-testnet.metadium.club/
+- API: https://api.meta-agents-testnet.metadium.club/ (현재 web과 동일 upstream)
+- Hosted on: 110번 서버 (10.150.254.110), PM2 `meta-agents` on :3100
+- HTTPS: 110번 공유 gateway 경유, Let's Encrypt DNS-01
+- Access: 내부망 전용 (private IP — Tailscale 또는 사내망)
+
+### Domain 네이밍 규칙
+- Testnet: `*-testnet.metadium.club` (suffix)
+- Mainnet: `*.metadium.club` (suffix 없음, 아직 미배포)
+- API: `api.<web>` 동일 규칙
+
+### DNS 관리
+- Zone: `metadium.club` (James Uhr AWS account `748501526749`, zone id `Z3RA5HA5VA82JG`)
+- IAM user: `jsong-claude-route53` — metadium.club zone 쓰기 + 전체 zone 읽기 권한
+- gram-jsong profile: `route53-metadium`
+
+### Tech debt
+- 110번 gateway(Caddy)는 현재 별도 프로젝트에 편승 — v0.3 이후 "gateway" 프로젝트로 분리 예정
 
 ## Skill routing
 

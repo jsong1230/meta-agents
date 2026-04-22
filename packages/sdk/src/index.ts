@@ -4,7 +4,12 @@ export type { FeeDelegateTx } from "./fee-delegation.js";
 export { MetaAgentClient, addressToDid, didToAddress, createDID, registerAgent, resolveDID, getAgentStats, verifyAgent } from "./did.js";
 export type { AgentIdentity, TradeRecord, AgentStats, VerifyResult, MetaAgentsConfig } from "./types.js";
 
-export { TESTNET_CONTRACTS, MAINNET_CONTRACTS, TESTNET_RPC, MAINNET_RPC } from "./config.js";
+export {
+  TESTNET_CONTRACTS, MAINNET_CONTRACTS,
+  TESTNET_RPC, MAINNET_RPC,
+  TESTNET_CHAIN_ID, MAINNET_CHAIN_ID,
+  TESTNET_WEB_URL, TESTNET_API_BASE_URL,
+} from "./config.js";
 export type { ContractAddresses } from "./config.js";
 
 // v0.3 — Delegation Framework (patent 10-2025-0074709, claims 6-7, 20)

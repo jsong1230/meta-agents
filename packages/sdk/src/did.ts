@@ -20,7 +20,7 @@
 import { ethers } from "ethers";
 import type { AgentIdentity, AgentStats, VerifyResult, MetaAgentsConfig } from "./types.js";
 import { IDENTITY_REGISTRY_ABI, PUBLIC_KEY_RESOLVER_ABI, SERVICE_KEY_RESOLVER_ABI, AGENT_REGISTRY_ABI, TRADE_LOG_ABI } from "./abi.js";
-import { TESTNET_CONTRACTS, TESTNET_RPC, TESTNET_CHAIN_ID } from "./config.js";
+import { TESTNET_CONTRACTS, TESTNET_RPC, TESTNET_CHAIN_ID, TESTNET_API_BASE_URL } from "./config.js";
 import type { ContractAddresses } from "./config.js";
 
 const NETWORK_PREFIX = "testnet";
@@ -49,15 +49,19 @@ export class MetaAgentClient {
   readonly provider: ethers.JsonRpcProvider;
   readonly contracts: ContractAddresses;
   readonly chainId: number;
+  /** Public meta-agents HTTP API base URL (e.g. `/api/verify`, `/api/leaderboard`). */
+  readonly apiBaseUrl: string;
 
   constructor(
     rpcUrl: string = TESTNET_RPC,
     contracts: ContractAddresses = TESTNET_CONTRACTS,
-    chainId: number = TESTNET_CHAIN_ID
+    chainId: number = TESTNET_CHAIN_ID,
+    apiBaseUrl: string = TESTNET_API_BASE_URL
   ) {
     this.provider = new ethers.JsonRpcProvider(rpcUrl, { chainId, name: "metadium" });
     this.contracts = contracts;
     this.chainId = chainId;
+    this.apiBaseUrl = apiBaseUrl.replace(/\/+$/, "");
   }
 
   /**
