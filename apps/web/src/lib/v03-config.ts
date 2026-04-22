@@ -10,14 +10,19 @@ export const METADIUM_CHAIN_ID = Number(
   process.env.NEXT_PUBLIC_METADIUM_CHAIN_ID || "12"
 );
 
+// Defaults match contracts/scripts/deploy-v03.ts output (2026-04-22 testnet deploy).
+// Override via NEXT_PUBLIC_* env vars for local / staging / mainnet rebuilds.
 export const DELEGATION_REGISTRY_ADDRESS =
-  process.env.NEXT_PUBLIC_DELEGATION_REGISTRY || "";
+  process.env.NEXT_PUBLIC_DELEGATION_REGISTRY ||
+  "0xc1866e1f1ef84acB3DAf0224C81Bb3aa410aF09e";
 
 export const AGENT_EVENT_LOG_ADDRESS =
-  process.env.NEXT_PUBLIC_AGENT_EVENT_LOG || "";
+  process.env.NEXT_PUBLIC_AGENT_EVENT_LOG ||
+  "0xE25154d1173c6eE3B50cC7eb6EE1f145ba95102F";
 
 export const TRADE_LOG_V2_ADDRESS =
-  process.env.NEXT_PUBLIC_TRADE_LOG_V2 || "";
+  process.env.NEXT_PUBLIC_TRADE_LOG_V2 ||
+  "0x2B5C8Ab3139B7A31381Dd487150Bb30699d0c1A2";
 
 export function v03Ready(): boolean {
   return !!DELEGATION_REGISTRY_ADDRESS && !!AGENT_EVENT_LOG_ADDRESS;
