@@ -1,6 +1,26 @@
+/**
+ * @deprecated 2026-04-22 — use the official Metadium testnet DID contracts instead.
+ *
+ *   IdentityRegistry   0xbe2bb3d7085ff04bde4b3f177a730a826f05cb70
+ *   PublicKeyResolver  0x81c638aec7d323d4cd0114a5d5407be241b25d0a
+ *   ServiceKeyResolver 0xf4f9790205ee559a379c519e04042b20560eefad
+ *
+ * Sources: METADIUM/did-sdk-java, METADIUM/meta-did-resolver.
+ *
+ * This script remains in the repo for historical reference — it deployed the
+ * initial self-owned DID stack to `0x98ee60.../0xFD89c9.../0x108A19...` during
+ * v0.1 development. Do NOT run again. SDK and web config both point at the
+ * official registry.
+ */
 import { ethers } from "hardhat";
 
 async function main() {
+  throw new Error(
+    "deploy-did.ts is deprecated — meta-agents now uses the official Metadium testnet DID registry. " +
+    "See packages/sdk/src/config.ts TESTNET_CONTRACTS."
+  );
+
+  // eslint-disable-next-line @typescript-eslint/no-unreachable
   const [deployer] = await ethers.getSigners();
   console.log("Deploying DID contracts with:", deployer.address);
   console.log("Balance:", ethers.formatEther(await ethers.provider.getBalance(deployer.address)), "META");
