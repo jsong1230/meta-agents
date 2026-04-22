@@ -41,3 +41,18 @@ export const MAINNET_RPC = "https://api.metadium.com/prod";
 
 export const TESTNET_CHAIN_ID = 12;
 export const MAINNET_CHAIN_ID = 11;
+
+/**
+ * Public meta-agents endpoints. Declared separately from the RPC URL so the
+ * API can migrate to its own stack later without breaking existing consumers.
+ */
+export const TESTNET_WEB_URL =
+  process.env.META_AGENTS_TESTNET_WEB ||
+  "https://meta-agents-testnet.metadium.club";
+
+export const TESTNET_API_BASE_URL =
+  process.env.META_AGENTS_TESTNET_API ||
+  "https://api.meta-agents-testnet.metadium.club";
+
+// Mainnet endpoints will be added when the mainnet service is deployed.
+// Naming rule: testnet = "*-testnet.metadium.club", mainnet = "*.metadium.club".
