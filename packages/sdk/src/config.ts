@@ -11,9 +11,11 @@ export interface ContractAddresses {
 }
 
 export const TESTNET_CONTRACTS: ContractAddresses = {
-  identityRegistry: "0x98ee60651533e561395098E1FF6653E68F579DdE",
-  publicKeyResolver: "0xFD89c9dFC82f9f806E5aFd55cBA37ce02708F2Cf",
-  serviceKeyResolver: "0x108A19883eA22D47FcB58862129c686994583dCf",
+  // Official Metadium testnet DID contracts (source: METADIUM/did-sdk-java, METADIUM/meta-did-resolver)
+  identityRegistry: "0xbe2bb3d7085ff04bde4b3f177a730a826f05cb70",
+  publicKeyResolver: "0x81c638aec7d323d4cd0114a5d5407be241b25d0a",
+  serviceKeyResolver: "0xf4f9790205ee559a379c519e04042b20560eefad",
+  // meta-agents own contracts
   agentRegistry: "0x3418ce33ec4369268e86b6DEd2288248da3dD39d",
   tradeLog: "0xB02239dEB85528a268f31a00EDFde682eFe268B6",
 };
