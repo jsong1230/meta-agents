@@ -92,7 +92,7 @@ export default function Home() {
       <section className="mx-auto max-w-6xl px-6 py-16">
         <div className="grid grid-cols-4 gap-6 text-center">
           {[
-            { label: t("home.stats.contracts"), value: "5" },
+            { label: t("home.stats.contracts"), value: "8" },
             { label: t("home.stats.pairs"), value: "5" },
             { label: t("home.stats.chain"), value: "Metadium" },
             { label: t("home.stats.gas"), value: "0 META" },
