@@ -68,13 +68,17 @@
 - SDK `TESTNET_WEB_URL` · `TESTNET_API_BASE_URL` 상수 + `MetaAgentClient.apiBaseUrl` 기본값 반영
 - 네이밍 규칙 확정: testnet = `*-testnet.metadium.club`, mainnet = `*.metadium.club`
 
-## Next (v0.2)
-
 ### npm publish (@meta-agents/sdk)
-- **What**: SDK를 npm에 퍼블리시
-- **Why**: 외부 개발자가 npm install로 바로 사용
-- **Priority**: P1
-- **Blocked by**: 없음
+**Completed:** v0.3.0 (2026-04-24)
+- `@meta-agents/sdk@0.3.0-testnet.1` published under `testnet` dist-tag
+- `@meta-agents/sdk@0.0.1` placeholder on `latest` (throws with testnet install instructions) — `npm install @meta-agents/sdk` → 명시적으로 `@testnet` 붙여야 함
+- package.json: description/license/repo/keywords/files/publishConfig/prepublishOnly 완비
+- LICENSE(MIT) 루트 + SDK 디렉토리
+- README 재작성 (TESTNET 배너, install 가이드, DID/KYA/v0.3 delegation quickstart)
+- did.ts: `ethers.Wallet.createRandom()` 반환 타입 `HDNodeWallet`으로 수정
+- Pre-publish 자동화: `npm publish` 시 build + test 돌림
+
+## Next (v0.2)
 
 ### 외부 개발자 5명 검증
 - **What**: AI crypto trading bot 개발자 5명에게 SDK 테스트 요청

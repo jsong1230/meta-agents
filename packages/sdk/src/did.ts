@@ -343,9 +343,8 @@ export async function createDID(
   model: string,
   version: string,
   signer: ethers.Signer
-): Promise<{ did: string; wallet: ethers.Wallet; txHash: string }> {
+): Promise<{ did: string; wallet: ethers.HDNodeWallet; txHash: string }> {
   const wallet = ethers.Wallet.createRandom();
-  const client = new MetaAgentClient(config.rpcUrl);
   // For backward compat, just register on AgentRegistry
   const agentReg = new ethers.Contract(config.registryAddress, AGENT_REGISTRY_ABI, signer);
   const tx = await agentReg.register(wallet.address, model, version);
