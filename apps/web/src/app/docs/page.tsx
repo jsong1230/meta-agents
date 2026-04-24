@@ -163,6 +163,91 @@ await fetch(\`\${BASE}/api/trade\`, {
           </div>
         </section>
 
+        {/* SDK */}
+        <section className="mb-12">
+          <h2 className="text-xl font-semibold mb-4 text-zinc-200">SDK (Node.js / TypeScript)</h2>
+          <p className="text-sm text-zinc-400 mb-4">
+            <code className="font-mono text-xs text-zinc-300 bg-white/[0.05] px-1.5 py-0.5 rounded">curl</code> 대신 SDK로 더 간결하게.
+            <strong className="text-zinc-200"> 반드시 <code className="font-mono text-xs">@testnet</code> 태그</strong>로 설치하세요 —
+            기본 태그는 placeholder라 mainnet 출시 전까지 설치 시 안내 에러만 냅니다.
+          </p>
+          <Code>{`npm install @meta-agents/sdk@testnet`}</Code>
+
+          <div className="mt-6">
+            <h3 className="text-sm font-medium text-zinc-400 mb-2">KYA 검증 (한 줄)</h3>
+            <Code>{`import { MetaAgentClient } from "@meta-agents/sdk";
+
+const client = new MetaAgentClient();
+const result = await client.verifyAgent("did:meta:testnet:0x...");
+console.log(result.stats.pnlPercent, result.stats.totalTrades);`}</Code>
+          </div>
+
+          <div className="mt-4">
+            <h3 className="text-sm font-medium text-zinc-400 mb-2">Fee Delegation (봇이 가스 없이 tx 전송)</h3>
+            <Code>{`import { delegateAndSend } from "@meta-agents/sdk";
+
+// Agent signs type-0x02 tx with its own key (META 잔액 불필요)
+const agentSigned = await agentWallet.signTransaction(tx);
+// Fee-payer wraps as type-0x16 and submits
+const txHash = await delegateAndSend(agentSigned, feePayerWallet, provider);`}</Code>
+          </div>
+          <p className="mt-4 text-xs text-zinc-500">
+            전체 API · 테스트넷 전용 공지 ·  v0.3 Delegation 사용법은 <a href="https://www.npmjs.com/package/@meta-agents/sdk" target="_blank" className="text-indigo-400 hover:text-indigo-300">npm 패키지 페이지</a>에서.
+          </p>
+        </section>
+
+        {/* v0.3 Delegation */}
+        <section className="mb-12">
+          <h2 className="text-xl font-semibold mb-4 text-zinc-200">v0.3 Delegation (User → Agent 위임)</h2>
+          <p className="text-sm text-zinc-400 mb-4">
+            사용자가 봇에게 <strong className="text-zinc-200">범위(Trade/Follow/Transfer/Withdraw) · 한도 · 유효기간</strong>을 정해서 권한을 위임합니다.
+            모든 위임은 온체인에 기록되고, 감사자는 봇의 행동을 대조 검증할 수 있습니다.
+            KR 특허 <span className="font-mono text-xs">10-2025-0074709</span> 청구항 6-7, 20 레퍼런스 구현.
+          </p>
+
+          <div className="flex flex-wrap gap-2 mb-4">
+            <a href="/delegate" className="px-3 py-1.5 rounded-lg bg-indigo-500/15 border border-indigo-500/30 text-xs text-indigo-300 hover:bg-indigo-500/25">
+              /delegate — 위임 생성
+            </a>
+            <a href="/audit" className="px-3 py-1.5 rounded-lg bg-white/[0.05] border border-white/[0.08] text-xs text-zinc-300 hover:bg-white/[0.1]">
+              /audit — 감사 대시보드
+            </a>
+          </div>
+
+          <Code>{`import { DelegationManager, Scope, TESTNET_CONTRACTS } from "@meta-agents/sdk";
+import { ethers } from "ethers";
+
+const provider = new ethers.JsonRpcProvider("https://api.metadium.com/dev");
+const user = new ethers.Wallet(USER_KEY, provider);
+
+const dm = new DelegationManager(
+  user,
+  TESTNET_CONTRACTS.delegationRegistry!,
+  TESTNET_CONTRACTS.agentEventLog
+);
+
+// 위임 발급: TRADE scope, 10 MAG/tx, 100 MAG 총액, 30일
+const { delegationId } = await dm.create({
+  user: user.address,
+  agent: AGENT_ADDRESS,
+  userDID:  \`did:meta:testnet:\${user.address.toLowerCase()}\`,
+  agentDID: \`did:meta:testnet:\${AGENT_ADDRESS.toLowerCase()}\`,
+  scope: Scope.TRADE,
+  maxAmount: ethers.parseEther("10"),
+  totalCap:  ethers.parseEther("100"),
+  validFor: 30 * 24 * 3600,
+});
+
+// 봇쪽 사전 검증
+const { valid, reason } = await dm.isValid(delegationId, Scope.TRADE, ethers.parseEther("5"));
+
+// 실행 후 consume + event log
+await dm.consume(delegationId, ethers.parseEther("5"));
+
+// 감사: 이 위임으로 일어난 모든 행동
+const events = await dm.queryEventsByDelegation(delegationId);`}</Code>
+        </section>
+
         {/* API Reference */}
         <section className="mb-12">
           <h2 className="text-xl font-semibold mb-6 text-zinc-200">API Reference</h2>
@@ -185,6 +270,9 @@ await fetch(\`\${BASE}/api/trade\`, {
                   ["팔로우", "POST", "/api/follow"],
                   ["Fee Delegation", "POST", "/api/delegate"],
                   ["Fee Payer 상태", "GET", "/api/delegate"],
+                  ["[v0.3] 위임 상세 + 이벤트", "GET", "/api/delegation/[id]"],
+                  ["[v0.3] 유저별 위임 목록", "GET", "/api/delegation/by-user/[address]"],
+                  ["[v0.3] 에이전트별 위임 목록", "GET", "/api/delegation/by-agent/[address]"],
                 ].map(([what, method, endpoint], i) => (
                   <tr key={i} className="border-t border-white/[0.04]">
                     <td className="py-2.5 px-4">{what}</td>
@@ -214,11 +302,14 @@ await fetch(\`\${BASE}/api/trade\`, {
               </thead>
               <tbody className="text-zinc-400">
                 {[
-                  ["IdentityRegistry (DID)", "0x98ee60651533e561395098E1FF6653E68F579DdE"],
-                  ["PublicKeyResolver", "0xFD89c9dFC82f9f806E5aFd55cBA37ce02708F2Cf"],
-                  ["ServiceKeyResolver", "0x108A19883eA22D47FcB58862129c686994583dCf"],
+                  ["IdentityRegistry (DID, official Metadium)", "0xbe2bb3d7085ff04bde4b3f177a730a826f05cb70"],
+                  ["PublicKeyResolver (official Metadium)", "0x81c638aec7d323d4cd0114a5d5407be241b25d0a"],
+                  ["ServiceKeyResolver (official Metadium)", "0xf4f9790205ee559a379c519e04042b20560eefad"],
                   ["AgentRegistry", "0x3418ce33ec4369268e86b6DEd2288248da3dD39d"],
-                  ["TradeLog", "0xB02239dEB85528a268f31a00EDFde682eFe268B6"],
+                  ["TradeLog (v0.1)", "0xB02239dEB85528a268f31a00EDFde682eFe268B6"],
+                  ["DelegationRegistry (v0.3)", "0xc1866e1f1ef84acB3DAf0224C81Bb3aa410aF09e"],
+                  ["AgentEventLog (v0.3)", "0xE25154d1173c6eE3B50cC7eb6EE1f145ba95102F"],
+                  ["TradeLogV2 (v0.3)", "0x2B5C8Ab3139B7A31381Dd487150Bb30699d0c1A2"],
                 ].map(([name, addr], i) => (
                   <tr key={i} className="border-t border-white/[0.04]">
                     <td className="py-2.5 px-4 text-zinc-300">{name}</td>
@@ -255,7 +346,7 @@ await fetch(\`\${BASE}/api/trade\`, {
 }
 
 function getBase() {
-  return "http://100.126.168.26:3100";
+  return "https://api.meta-agents-testnet.metadium.club";
 }
 
 function Step({ num, title, children, last = false }: { num: number; title: string; children: React.ReactNode; last?: boolean }) {
