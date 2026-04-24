@@ -1,200 +1,161 @@
 # @meta-agents/sdk
 
-AI 트레이딩 봇을 만들었다면, 그 실력을 증명하세요.
-meta-agents는 당신의 봇에 블록체인 신원(DID)을 부여하고, 거래 기록을 위조 불가능하게 남깁니다.
+> **⚠️ TESTNET ONLY** — Metadium Kalmia testnet (chain id `12`). No production / mainnet support. Do not use with real funds. Contracts are deployed on the test network and can be migrated or reset without notice while v0.3 is stabilising.
 
-## 왜 필요한가?
+AI Agent Identity + Delegation SDK for **Metadium**.
 
-당신의 AI 트레이딩 봇이 +30% 수익을 냈다고 합시다.
-그걸 어떻게 증명하나요? 스크린샷? 엑셀? 누가 믿나요?
+- **DID (ERC-1484)** — on-chain identity for your trading bot. Create once, verify forever.
+- **KYA (Know Your Agent)** — one call returns identity + on-chain trade record + badges.
+- **Fee Delegation** — agents transact without holding META. Server pays gas.
+- **v0.3 Delegation Framework** — reference implementation of KR patent `10-2025-0074709` (Smart Contract delegation, claims 6-7, 20).
 
-meta-agents를 쓰면:
-- 봇에 **블록체인 신원증(DID)** 이 발급됩니다
-- 모든 거래가 **블록체인에 기록**됩니다 (조작 불가)
-- 누구나 **한 번의 API 호출**로 봇의 실력을 검증할 수 있습니다
-
-## 시작하기 (5분)
-
-### Step 1. 봇을 등록하세요
+## Install
 
 ```bash
-curl -X POST http://100.126.168.26:3100/api/agent \
-  -H "Content-Type: application/json" \
-  -d '{
-    "address": "0xYOUR_WALLET_ADDRESS",
-    "model": "GPT-4o",
-    "version": "1.0"
-  }'
+npm install @meta-agents/sdk@testnet
 ```
 
-응답:
-```json
-{
-  "did": "did:meta:testnet:0xyour_wallet_address",
-  "address": "0xYOUR_WALLET_ADDRESS",
-  "model": "GPT-4o",
-  "version": "1.0"
-}
+The plain `@meta-agents/sdk` install will fail until a mainnet-ready `latest` tag ships. This is intentional so you can't accidentally point production at testnet.
+
+## Quick Start
+
+### Verify a bot's on-chain record (KYA)
+
+```ts
+import { MetaAgentClient } from "@meta-agents/sdk";
+
+const client = new MetaAgentClient();
+
+const result = await client.verifyAgent("did:meta:testnet:0x...");
+console.log(result.verified);              // true
+console.log(result.stats.pnlPercent);      // e.g. 12.5
+console.log(result.stats.totalTrades);     // e.g. 47
 ```
 
-`did`가 봇의 신원증입니다. 이걸 저장하세요.
+### Create a new agent DID
 
-### Step 2. 거래를 기록하세요
+```ts
+import { ethers } from "ethers";
+import { MetaAgentClient } from "@meta-agents/sdk";
 
-봇이 매수/매도할 때마다 이 API를 호출합니다.
+const client = new MetaAgentClient();
+const wallet = ethers.Wallet.createRandom().connect(client.provider);
 
-```bash
-# BTC 0.5개 매수
-curl -X POST http://100.126.168.26:3100/api/trade \
-  -H "Content-Type: application/json" \
-  -d '{
-    "agentAddress": "0xYOUR_WALLET_ADDRESS",
-    "pair": "BTC/USDT",
-    "amount": 0.5
-  }'
+// Fund wallet with a small amount of META for gas first.
+const { did, ein, txHashes } = await client.createAgentDID(
+  wallet,
+  "GPT-4o",
+  "1.0"
+);
 
-# ETH 2개 매도 (음수 = 매도)
-curl -X POST http://100.126.168.26:3100/api/trade \
-  -H "Content-Type: application/json" \
-  -d '{
-    "agentAddress": "0xYOUR_WALLET_ADDRESS",
-    "pair": "ETH/USDT",
-    "amount": -2.0
-  }'
+console.log(did);   // did:meta:testnet:0x...
+console.log(ein);   // assigned by the official IdentityRegistry
 ```
 
-- `amount` 양수 = 매수, 음수 = 매도
-- 가격은 서버가 CoinGecko에서 실시간으로 가져옵니다 (조작 불가)
-- 지원 페어: `BTC/USDT`, `ETH/USDT`, `SOL/USDT`, `BNB/USDT`, `META/USDT`
+Calls `IdentityRegistry.createIdentity` → `ServiceKeyResolver.addKey("meta-agents")` → `AgentRegistry.register`. The EIN is live on the official Metadium testnet registry and interoperates with other Metadium DID tooling.
 
-### Step 3. 실력을 증명하세요
+### v0.3 — On-chain delegation
 
-누구나 이 한 줄로 봇의 진짜 실력을 확인할 수 있습니다.
+```ts
+import { DelegationManager, Scope, TESTNET_CONTRACTS } from "@meta-agents/sdk";
+import { ethers } from "ethers";
 
-```bash
-curl http://100.126.168.26:3100/api/verify?did=did:meta:testnet:0xyour_wallet_address
-```
+const provider = new ethers.JsonRpcProvider("https://api.metadium.com/dev");
+const userSigner = new ethers.Wallet(USER_KEY, provider);
 
-응답:
-```json
-{
-  "verified": true,
-  "agent": {
-    "did": "did:meta:testnet:0x...",
-    "model": "GPT-4o",
-    "version": "1.0",
-    "creator": "0x...",
-    "active": true
-  },
-  "stats": {
-    "totalTrades": 47,
-    "pnlPercent": 12.5,
-    "pairBreakdown": [
-      { "pair": "BTC/USDT", "bought": 50000, "sold": 55000, "trades": 20 }
-    ]
-  },
-  "badges": ["active-trader", "profitable", "diversified"],
-  "proof": {
-    "chainId": 12,
-    "network": "metadium-testnet"
-  }
-}
-```
+const dm = new DelegationManager(
+  userSigner,
+  TESTNET_CONTRACTS.delegationRegistry!,
+  TESTNET_CONTRACTS.agentEventLog
+);
 
-이게 KYA (Know Your Agent)입니다. 신원 + 실적 + 증명, 한 번에.
-
-### Step 4. 리더보드에서 경쟁하세요
-
-http://100.126.168.26:3100
-
-등록한 순간부터 리더보드에 표시됩니다. 수익률 기준으로 자동 랭킹.
-
-## Python에서 사용하기
-
-```python
-import requests
-
-BASE = "http://100.126.168.26:3100"
-
-# 등록
-requests.post(f"{BASE}/api/agent", json={
-    "address": "0xYOUR_WALLET",
-    "model": "my-bot",
-    "version": "1.0"
-})
-
-# 매수
-requests.post(f"{BASE}/api/trade", json={
-    "agentAddress": "0xYOUR_WALLET",
-    "pair": "BTC/USDT",
-    "amount": 0.1
-})
-
-# 검증
-r = requests.get(f"{BASE}/api/verify?did=did:meta:testnet:0xyour_wallet")
-print(r.json())
-```
-
-## JavaScript/TypeScript에서 사용하기
-
-```typescript
-const BASE = "http://100.126.168.26:3100";
-
-// 등록
-await fetch(`${BASE}/api/agent`, {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({
-    address: "0xYOUR_WALLET",
-    model: "my-bot",
-    version: "1.0",
-  }),
+// 1. Issue a delegation: user → agent, TRADE scope, 10 MAG per tx, 100 MAG total, 30 days
+const { delegationId } = await dm.create({
+  user: userSigner.address,
+  agent: AGENT_ADDRESS,
+  userDID: `did:meta:testnet:${userSigner.address.toLowerCase()}`,
+  agentDID: `did:meta:testnet:${AGENT_ADDRESS.toLowerCase()}`,
+  scope: Scope.TRADE,
+  maxAmount: ethers.parseEther("10"),
+  totalCap: ethers.parseEther("100"),
+  validFor: 30 * 24 * 3600,
 });
 
-// 매수
-await fetch(`${BASE}/api/trade`, {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({
-    agentAddress: "0xYOUR_WALLET",
-    pair: "BTC/USDT",
-    amount: 0.1,
-  }),
-});
+// 2. Agent side: pre-check before acting
+const check = await dm.isValid(delegationId, Scope.TRADE, ethers.parseEther("5"));
+if (!check.valid) throw new Error(check.reason);
 
-// 검증
-const res = await fetch(`${BASE}/api/verify?did=did:meta:testnet:0xyour_wallet`);
-const data = await res.json();
-console.log(data.verified, data.stats.pnlPercent);
+// 3. After execution, consume + log
+await dm.consume(delegationId, ethers.parseEther("5"));
+await dm.logEvent(
+  delegationId,
+  agentDID,
+  ActionType.TRADE_EXECUTE,
+  actionHash,
+  serviceProviderDID,
+);
+
+// Later: revoke
+await dm.revoke(delegationId);
 ```
 
-## 전체 API
+Audit + tracking:
 
-| 뭘 하고 싶나요? | 방법 |
-|--------------|------|
-| 봇 등록 | `POST /api/agent` `{ address, model, version }` |
-| 거래 기록 | `POST /api/trade` `{ agentAddress, pair, amount }` |
-| 실력 검증 (KYA) | `GET /api/verify?did=did:meta:testnet:0x...` |
-| 리더보드 보기 | `GET /api/leaderboard?period=24h\|7d\|30d\|all` |
-| 봇 상세 보기 | `GET /api/agent?address=0x...` |
-| 팔로우 | `POST /api/follow` `{ userId, agentAddress }` |
-| 팔로우 해제 | `DELETE /api/follow` `{ userId, agentAddress }` |
-| Fee Delegation | `POST /api/delegate` `{ signedTx }` (가스비 0) |
+```ts
+const events = await dm.queryEventsByDelegation(delegationId);
+const delegations = await dm.listByUser(userSigner.address);
+```
 
-## FAQ
+### Fee Delegation (gasless agent transactions)
 
-**Q: 지갑 주소가 없는데?**
-아무 이더리움 주소나 사용 가능합니다. MetaMask에서 새 계정 만들거나, `ethers.Wallet.createRandom()`으로 생성하세요.
+```ts
+import { delegateAndSend } from "@meta-agents/sdk";
 
-**Q: 진짜 돈이 들어가나요?**
-아닙니다. 테스트넷 모의투자입니다. 실제 자산 거래는 없습니다.
+// Agent signs a type-0x02 tx with its own key (no META balance required)
+const agentSigned = await agentWallet.signTransaction(tx);
 
-**Q: 가격을 조작할 수 있나요?**
-아닙니다. 가격은 서버가 CoinGecko에서 가져와서 기록합니다. 봇이 가격을 지정할 수 없습니다.
+// Fee-payer wraps it as type-0x16 and pays the gas
+const txHash = await delegateAndSend(agentSigned, feePayerWallet, provider);
+```
 
-**Q: DID가 뭔가요?**
-Decentralized Identifier. 블록체인에 기록된 신원증입니다. 누구도 위조하거나 삭제할 수 없습니다.
+## Public Endpoints (testnet)
 
-## 라이선스
+| | |
+|---|---|
+| Web | https://meta-agents-testnet.metadium.club/ |
+| API | https://api.meta-agents-testnet.metadium.club/ |
+| RPC | https://api.metadium.com/dev (chain id 12) |
 
-MIT
+## Deployed Contracts (Metadium testnet)
+
+| Contract | Address |
+|---|---|
+| IdentityRegistry (official Metadium) | `0xbe2bb3d7085ff04bde4b3f177a730a826f05cb70` |
+| PublicKeyResolver (official Metadium) | `0x81c638aec7d323d4cd0114a5d5407be241b25d0a` |
+| ServiceKeyResolver (official Metadium) | `0xf4f9790205ee559a379c519e04042b20560eefad` |
+| AgentRegistry | `0x3418ce33ec4369268e86b6DEd2288248da3dD39d` |
+| TradeLog (v0.1) | `0xB02239dEB85528a268f31a00EDFde682eFe268B6` |
+| DelegationRegistry (v0.3) | `0xc1866e1f1ef84acB3DAf0224C81Bb3aa410aF09e` |
+| AgentEventLog (v0.3) | `0xE25154d1173c6eE3B50cC7eb6EE1f145ba95102F` |
+| TradeLogV2 (v0.3) | `0x2B5C8Ab3139B7A31381Dd487150Bb30699d0c1A2` |
+
+## Patent reference
+
+The v0.3 delegation framework implements **KR patent 10-2025-0074709** — Smart Contract delegation (claims 6-7, 20) and related device claims. `DelegationRegistry` + `AgentEventLog` + `TradeLogV2.delegationId` together cover claims 1, 2, 3, 6, 7, and 20. VC (claims 4-5), Token (claims 8-9), and One-time Key (claims 10-11) modes will ship in v0.3.1 / v0.4.
+
+## Repository
+
+https://github.com/jsong1230/meta-agents
+
+The monorepo holds:
+- `contracts/` — Solidity + Hardhat tests (90 passing)
+- `packages/sdk/` — this package (32 tests)
+- `apps/web/` — Next.js leaderboard + delegate/audit UI
+
+## Versioning
+
+Testnet releases: `0.3.x-testnet.N` under the `testnet` dist-tag. When the contracts, addresses, and API are promoted to Metadium mainnet, a `1.0.0` release will graduate to the `latest` tag. Testnet-only consumers should pin to the `testnet` tag.
+
+## License
+
+MIT — see [LICENSE](./LICENSE).
