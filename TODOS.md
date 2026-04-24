@@ -78,6 +78,15 @@
 - did.ts: `ethers.Wallet.createRandom()` 반환 타입 `HDNodeWallet`으로 수정
 - Pre-publish 자동화: `npm publish` 시 build + test 돌림
 
+### 인프라 이관 110 → 48
+**Completed:** v0.3.0 (2026-04-24)
+- 계기: heritageradio Caddy reload로 meta-agents 블록 증발 (공유 Caddy 편승 tech debt 현실화)
+- 48번(10.150.255.48)에 전용 스택 구축: Docker Compose Caddy (route53 DNS-01) + Node 20 + PM2 + app/sdk workspace
+- DB rsync 이관 (5.4MB, 7887 trades + 3 agents 손실 없이)
+- DNS A 레코드 2개 Route53에서 10.150.254.110 → 10.150.255.48 전환
+- 110 heritageradio Caddy는 **건드리지 않음** (프로젝트 경계 유지). 110 PM2 meta-agents는 rollback 대비 stopped 상태 보존
+- 검증: HTTPS 200 <200ms, /api/bot 트리거 시 정상 write, 5분 cron 1틱 안에 trade count 증가 확인
+
 ## Next (v0.2)
 
 ### 외부 개발자 5명 검증
