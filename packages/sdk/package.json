@@ -1,6 +1,6 @@
 {
   "name": "@meta-agents/sdk",
-  "version": "0.3.0-testnet.1",
+  "version": "0.3.0-testnet.2",
   "description": "AI Agent Identity + Delegation SDK for Metadium — TESTNET only (v0.3). DID (ERC-1484), fee delegation, on-chain delegation framework per KR patent 10-2025-0074709.",
   "license": "MIT",
   "author": "Jeffrey Song",
