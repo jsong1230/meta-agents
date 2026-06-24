@@ -1,0 +1,13 @@
+{
+  "theme": "neutral",
+  "fontFamily": "Noto Sans CJK KR, sans-serif",
+  "themeVariables": {
+    "fontSize": "15px",
+    "lineColor": "#333333",
+    "primaryColor": "#f4f4f4",
+    "primaryBorderColor": "#333333",
+    "primaryTextColor": "#111111"
+  },
+  "flowchart": { "curve": "linear", "htmlLabels": true, "padding": 12 },
+  "sequence": { "showSequenceNumbers": false, "actorMargin": 60, "mirrorActors": false }
+}
