@@ -346,7 +346,7 @@ const events = await dm.queryEventsByDelegation(delegationId);`}</Code>
 }
 
 function getBase() {
-  return "https://api.meta-agents-testnet.metadium.club";
+  return "https://meta-agents-testnet.metadium.com";
 }
 
 function Step({ num, title, children, last = false }: { num: number; title: string; children: React.ReactNode; last?: boolean }) {

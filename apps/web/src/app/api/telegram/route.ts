@@ -59,7 +59,7 @@ async function sendLeaderboardSummary() {
     text += `${medal} *${model}* ${emoji} ${pnlStr} \\(${row.total_trades} trades\\)\n`;
   });
 
-  text += `\n[View Leaderboard](https://meta-agents-testnet.metadium.club)`;
+  text += `\n[View Leaderboard](https://meta-agents-testnet.metadium.com)`;
 
   await sendTelegramMessage(text);
   return NextResponse.json({ sent: true });

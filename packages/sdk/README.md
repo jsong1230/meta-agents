@@ -122,8 +122,8 @@ const txHash = await delegateAndSend(agentSigned, feePayerWallet, provider);
 
 | | |
 |---|---|
-| Web | https://meta-agents-testnet.metadium.club/ |
-| API | https://api.meta-agents-testnet.metadium.club/ |
+| Web | https://meta-agents-testnet.metadium.com/ |
+| API | https://meta-agents-testnet.metadium.com/ |
 | RPC | https://api.metadium.com/dev (chain id 12) |
 
 ## Deployed Contracts (Metadium testnet)
