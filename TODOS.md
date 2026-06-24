@@ -62,11 +62,11 @@
 
 ### 도메인 + HTTPS (testnet)
 **Completed:** v0.3.0 (2026-04-22)
-- Web: https://meta-agents-testnet.metadium.club/
-- API: https://api.meta-agents-testnet.metadium.club/
-- Route53 zone: `metadium.club` (James Uhr AWS, `Z3RA5HA5VA82JG`), DNS-01 via Let's Encrypt
-- SDK `TESTNET_WEB_URL` · `TESTNET_API_BASE_URL` 상수 + `MetaAgentClient.apiBaseUrl` 기본값 반영
-- 네이밍 규칙 확정: testnet = `*-testnet.metadium.club`, mainnet = `*.metadium.club`
+- Web: https://meta-agents-testnet.metadium.com/
+- API: https://meta-agents-testnet.metadium.com/
+- 내부망: Route53 zone `metadium.club` (James Uhr AWS, `Z3RA5HA5VA82JG`) → 10.150.255.48 (사내 전용)
+- **외부 공개: `meta-agents-testnet.metadium.com` (Cloudflare Tunnel `meta-agents`, 48번 cloudflared 서비스). 웹+API 단일 호스트(`/api`), 자동 TLS**
+- SDK `TESTNET_WEB_URL` · `TESTNET_API_BASE_URL` 상수 + `MetaAgentClient.apiBaseUrl` 기본값 = `.com`
 
 ### npm publish (@meta-agents/sdk)
 **Completed:** v0.3.0 (2026-04-24)
