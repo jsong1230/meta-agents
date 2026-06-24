@@ -1,0 +1,12 @@
+flowchart TD
+    U[사용자/위임자] -->|sign| ISS[위임장 발급자<br/>self-issue 또는 서버]
+    ISS -->|① register 권한위임정보| REG[(위임 레지스트리<br/>DelegationRegistry)]
+    REG -->|② 위임장| AG[AI 에이전트]
+    AG -->|③④ 서비스 이용 요청| SP[서비스 제공자]
+    SP -->|⑤ isValid id,scope,amount| REG
+    SP -->|⑥ 이벤트 로그 등록| LOG[(에이전트 이벤트 로그<br/>AgentEventLog)]
+    LOG -->|⑦ query| AUD[감사자]
+    subgraph BC[블록체인 네트워크]
+        REG
+        LOG
+    end

@@ -1,0 +1,11 @@
+sequenceDiagram
+    participant AG as AI 에이전트
+    participant SP as 서비스 제공자
+    participant BC as 블록체인 네트워크
+    AG->>SP: ① 권한위임장 포함 서비스 이용 요청
+    Note over SP: ② 1차 검증(요청 유효성, 방식별 서명)
+    SP->>BC: ③ 위임정보 조회 / isValid(id, scope, amount)
+    BC-->>SP: ④ 권한위임정보 · 유효 여부 반환
+    Note over SP: ⑤ 2차 검증(권한범위·한도·기간·철회)
+    SP-->>AG: 사용자 서비스 제공
+    SP->>BC: ⑥ (필요 시) 누적 사용량 갱신(consume)
