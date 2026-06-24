@@ -68,10 +68,16 @@ TTAK.KO-XX.XXXX (과제번호 부여 예정)        제정일 202X.XX.XX.
 
 ## 2 인용 표준
 
-- W3C Decentralized Identifiers (DIDs) v1.1
-- W3C Verifiable Credentials Data Model
-- ERC-1484 (DID), ERC-1056 *(해당 시)*
-- *(그 외 해당 사항 검토)*
+다음 문서는 본 표준의 적용에 필수적인 인용 표준이다. 발행 연도가 표기된 인용 표준은 인용된 판(추록 포함)만 적용하며, 발행 연도가 표기되지 않은 인용 표준은 최신판을 적용한다.
+
+- **[1]** W3C Recommendation, *Decentralized Identifiers (DIDs) v1.0*, 2022-07-19.
+- **[2]** W3C Recommendation, *Verifiable Credentials Data Model v2.0*, 2025-05-15.
+
+> **에디터 노트 — 인용 표준 확정(v0.2 → v0.3)**
+> - 본 표준은 DID 레지스트리 기반 퍼블릭키 해석(5.2·5.4)에 **[1]**을, 검증 가능한 위임 자격증명(VC) 방식(5.2.1)에 **[2]**를 규범적으로 의존한다. 두 문서는 모두 W3C 정식 권고안(Recommendation)으로 안정 단계이다.
+> - **DID v1.1**은 2026-03-05 후보권고안(Candidate Recommendation) 단계이다(미디어 타입 `application/did` 일원화, DID Resolution v0.3 분리 등). 정식 권고안 확정 시 [1]을 갱신한다 → 진행 상황은 부록 I-4(참고).
+> - ERC-1484(EIN)/ERC-1056, OIDF *Identity Management for Agentic AI*(2025-10), DIF *MCP-I*(2026-03)는 본 표준이 특정 식별자 체계·프레임워크에 종속되지 않으므로 **규범적 인용에서 제외**하고 참고 문헌(부록 I-4)에 둔다. ERC-1484 EIN은 DID 외 식별자의 *예시*로만 언급된다(5.3).
+> - 서명 알고리즘 및 시각 표현 형식(예: ISO 8601 / RFC 3339)은 현재 본문에서 특정하지 않으므로 인용 표준에 포함하지 않는다. 상호운용을 위해 유효기간 필드의 시각 표현을 규범화할지는 v0.3에서 결정한다(미결정).
 
 ## 3 용어 정의
 
@@ -330,7 +336,11 @@ sequenceDiagram
 - **I-1 지식재산권 확약서 정보**: 등록특허 10-2025-0074709 (㈜씨피랩스)
 - **I-2 시험인증 관련 사항**: meta-agents v0.3.0 Metadium Testnet 실증 (검토)
 - **I-3 본 표준의 연계(family) 표준**: Agent Trustworthiness Governance Framework (상위 거버넌스, 유순덕 교수) — 상호참조
-- **I-4 참고 문헌**: W3C DID v1.1, OIDF Identity Management for Agentic AI (2025-10), DIF MCP-I (2026-03)
+- **I-4 참고 문헌 (비규범)**:
+  - W3C Candidate Recommendation, *Decentralized Identifiers (DIDs) v1.1*, 2026-03-05 (진행 중 — 정식 권고안 확정 시 인용 표준 [1] 갱신)
+  - ERC-1484 (Ethereum Identity Number, EIN), ERC-1056 — DID 외 식별자 체계 예시
+  - OIDF, *Identity Management for Agentic AI*, 2025-10
+  - DIF, *Model Context Protocol Identity (MCP-I)*, 2026-03
 - **I-5 표준의 이력**: draft v0.1 (목차·골격) → draft v0.2 (5·6장 본문 + 7장 보안/키관리 2계층 모델 반영, reference implementation 기준)
 
 ---
@@ -341,4 +351,4 @@ sequenceDiagram
 - 5.2.2(스마트 컨트랙트)는 이미 구현·배포 완료 → 표준 본문의 reference implementation으로 인용 가능.
 - 5.2.1/5.2.3/5.2.4는 특허에는 있으나 구현 예정(v0.3.1/v0.4) → 표준에는 "방식 정의"로 포함하되 실증은 단계적.
 
-**v0.2 작성 범위**: 1장(적용 범위·대상·제외), 3장(용어 13개), 5장(구조·5개 모듈·데이터 모델), 6장(3개 시나리오), 7장(위협 6 + 요구사항 7 매핑) 본문 완성. 다이어그램 그림 1~4 Mermaid 도면화 완료. 남은 작업 → 2장 인용 표준 최종 확정, Mermaid→TTA 정식 도면(벡터) 변환, 교수 피드백 반영(v0.3).
+**v0.2 작성 범위**: 1장(적용 범위·대상·제외), 2장(인용 표준 확정 — W3C DID v1.0·VC 2.0 규범 인용, 그 외 비규범 분리), 3장(용어 13개), 5장(구조·5개 모듈·데이터 모델), 6장(3개 시나리오), 7장(위협 6 + 요구사항 7 매핑) 본문 완성. 다이어그램 그림 1~4 Mermaid 도면화 완료. 남은 작업 → Mermaid→TTA 정식 도면(벡터) 변환, 유효기간 시각 표현 규범화 결정, 교수 피드백 반영(v0.3).
