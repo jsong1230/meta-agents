@@ -12,7 +12,7 @@ flowchart TD
     end
     U -->|sign| ISS
     ISS -->|① register 권한위임정보| REG
-    REG -->|② 위임장| AG
+    ISS -->|② 위임장| AG
     AG -->|③④ 서비스 이용 요청| SP
     SP -->|⑤ isValid id,scope,amount| REG
     SP -->|⑥ 이벤트 로그 등록| LOG
