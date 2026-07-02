@@ -4,7 +4,7 @@ pragma solidity ^0.8.24;
 /**
  * @title AgentEventLog
  * @notice Append-only on-chain log of AI agent actions.
- *         Implements KR patent 10-2025-0074709 claims 2-3
+ *         Implements KR patent 10-2957866 claims 2-3
  *         ("AI 에이전트 행동 로그 등록 및 감사 조회").
  *
  *         Stored as hash + metadata (payload kept off-chain for privacy).

@@ -12,6 +12,6 @@ export {
 } from "./config.js";
 export type { ContractAddresses } from "./config.js";
 
-// v0.3 — Delegation Framework (patent 10-2025-0074709, claims 6-7, 20)
+// v0.3 — Delegation Framework (patent 10-2957866, claims 6-7, 20)
 export { DelegationManager, Scope, ActionType, computeDelegationId, SCOPE_MASK } from "./delegation.js";
 export type { Delegation, CreateDelegationParams, IsValidResult, AgentEventRecord } from "./delegation.js";

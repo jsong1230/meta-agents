@@ -4,7 +4,7 @@ pragma solidity ^0.8.24;
 /**
  * @title DelegationRegistry
  * @notice On-chain delegation registry for AI agents.
- *         Implements KR patent 10-2025-0074709 claims 6-7, 20
+ *         Implements KR patent 10-2957866 claims 6-7, 20
  *         ("Smart Contract 방식 위임장 등록·검증·철회").
  *
  *         User ──register(params)──▶ this contract ──▶ delegationId

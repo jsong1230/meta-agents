@@ -1,5 +1,5 @@
 /**
- * Delegation module — KR patent 10-2025-0074709 Smart Contract mode (claims 6-7, 20).
+ * Delegation module — KR patent 10-2957866 Smart Contract mode (claims 6-7, 20).
  *
  * Flow:
  *   1. User signs DelegationRegistry.register(...) — self-issue delegation

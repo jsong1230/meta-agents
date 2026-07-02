@@ -151,7 +151,7 @@ export default function DelegatePage() {
           <Link href="/" className="text-sm text-zinc-500 hover:text-zinc-300">← 홈</Link>
           <h1 className="text-3xl font-semibold mt-4 mb-2">위임 생성</h1>
           <p className="text-sm text-zinc-400">
-            Smart Contract 방식 (특허 10-2025-0074709, 청구항 6-7) · 메타디움 테스트넷에 온체인 등록됩니다.
+            Smart Contract 방식 (특허 제10-2957866호, 청구항 6-7) · 메타디움 테스트넷에 온체인 등록됩니다.
           </p>
         </div>
 

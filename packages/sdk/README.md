@@ -7,7 +7,7 @@ AI Agent Identity + Delegation SDK for **Metadium**.
 - **DID (ERC-1484)** — on-chain identity for your trading bot. Create once, verify forever.
 - **KYA (Know Your Agent)** — one call returns identity + on-chain trade record + badges.
 - **Fee Delegation** — agents transact without holding META. Server pays gas.
-- **v0.3 Delegation Framework** — reference implementation of KR patent `10-2025-0074709` (Smart Contract delegation, claims 6-7, 20).
+- **v0.3 Delegation Framework** — reference implementation of KR patent `10-2957866` (Smart Contract delegation, claims 6-7, 20).
 
 ## Install
 
@@ -141,7 +141,7 @@ const txHash = await delegateAndSend(agentSigned, feePayerWallet, provider);
 
 ## Patent reference
 
-The v0.3 delegation framework implements **KR patent 10-2025-0074709** — Smart Contract delegation (claims 6-7, 20) and related device claims. `DelegationRegistry` + `AgentEventLog` + `TradeLogV2.delegationId` together cover claims 1, 2, 3, 6, 7, and 20. VC (claims 4-5), Token (claims 8-9), and One-time Key (claims 10-11) modes will ship in v0.3.1 / v0.4.
+The v0.3 delegation framework implements **KR patent 10-2957866** (registered 2026-04-22) — Smart Contract delegation (claims 6-7, 20) and related device claims. `DelegationRegistry` + `AgentEventLog` + `TradeLogV2.delegationId` together cover claims 1, 2, 3, 6, 7, and 20. VC (claims 4-5), Token (claims 8-9), and One-time Key (claims 10-11) modes will ship in v0.3.1 / v0.4.
 
 ## Repository
 

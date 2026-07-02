@@ -116,7 +116,7 @@ export default function AuditPage() {
         <Link href="/" className="text-sm text-zinc-500 hover:text-zinc-300">← 홈</Link>
         <h1 className="text-3xl font-semibold mt-4 mb-2">감사 대시보드</h1>
         <p className="text-sm text-zinc-400 mb-6">
-          위임 내역과 행동 로그를 감사합니다 (특허 10-2025-0074709 청구항 3).
+          위임 내역과 행동 로그를 감사합니다 (특허 제10-2957866호 청구항 3).
         </p>
 
         {!ready && (

@@ -202,7 +202,7 @@ const txHash = await delegateAndSend(agentSigned, feePayerWallet, provider);`}</
           <p className="text-sm text-zinc-400 mb-4">
             사용자가 봇에게 <strong className="text-zinc-200">범위(Trade/Follow/Transfer/Withdraw) · 한도 · 유효기간</strong>을 정해서 권한을 위임합니다.
             모든 위임은 온체인에 기록되고, 감사자는 봇의 행동을 대조 검증할 수 있습니다.
-            KR 특허 <span className="font-mono text-xs">10-2025-0074709</span> 청구항 6-7, 20 레퍼런스 구현.
+            KR 특허 <span className="font-mono text-xs">제10-2957866호</span> 청구항 6-7, 20 레퍼런스 구현.
           </p>
 
           <div className="flex flex-wrap gap-2 mb-4">

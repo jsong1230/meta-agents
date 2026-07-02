@@ -10,3 +10,4 @@ coverage/
 out/
 *.log
 ecosystem.config.cjs
+.gstack/
