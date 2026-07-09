@@ -11,3 +11,7 @@ out/
 *.log
 ecosystem.config.cjs
 .gstack/
+
+# C3 operator 개인키 (로컬/서버에만)
+contracts/c3-operators.json
+c3-operators.json
