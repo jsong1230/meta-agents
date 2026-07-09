@@ -23,6 +23,10 @@ contract AgentRegistry {
     mapping(address => AgentInfo) public agents;
     address[] public agentList;
 
+    // C3 어댑터 (AgentVerifierAdapter): operator 합의로 검증된 agent 표시
+    address public verifier;                    // set이면 owner 외에 이 주소도 setVerified 가능
+    mapping(address => bool) public verified;   // agent → 검증 여부
+
     event AgentCreated(
         address indexed agent,
         address indexed creator,
@@ -32,6 +36,8 @@ contract AgentRegistry {
     );
 
     event AgentDeactivated(address indexed agent);
+    event VerifierUpdated(address indexed oldVerifier, address indexed newVerifier);
+    event AgentVerificationUpdated(address indexed agent, bool verified);
 
     modifier onlyOwner() {
         require(msg.sender == owner, "AgentRegistry: not owner");
@@ -72,6 +78,20 @@ contract AgentRegistry {
         require(agents[agent].active, "AgentRegistry: not active");
         agents[agent].active = false;
         emit AgentDeactivated(agent);
+    }
+
+    /// @notice C3: operator 합의 결과를 반영할 어댑터 주소 설정 (owner 전용)
+    function setVerifier(address _verifier) external onlyOwner {
+        emit VerifierUpdated(verifier, _verifier);
+        verifier = _verifier;
+    }
+
+    /// @notice agent 검증 상태 설정. owner 또는 등록된 verifier(어댑터)만 호출 가능.
+    function setVerified(address agent, bool status) external {
+        require(msg.sender == owner || msg.sender == verifier, "AgentRegistry: not verifier");
+        require(agents[agent].registeredAt != 0, "AgentRegistry: not found");
+        verified[agent] = status;
+        emit AgentVerificationUpdated(agent, status);
     }
 
     function getAgent(address agent) external view returns (AgentInfo memory) {
