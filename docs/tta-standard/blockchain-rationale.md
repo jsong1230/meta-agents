@@ -1,7 +1,7 @@
 # 블록체인 채택 근거 — 왜 공유 원장이어야 하는가
 
 > 표준초안 심의 예상 질의 대응 근거 문서. "다른 저장 방식도 있는데 왜 블록체인을 필수로 규정하는가"에 대한 논증.
-> 관련: `normative-references-rationale.md`(인용표준 근거), `security-threat-model-stride.md`(7장 위협 모델 근거)
+> 관련: `normative-references-rationale.md`(인용표준 근거), `security-threat-model-stride.md`(위협 모델 근거 — v1.1에서 본문 삭제, 배경 자료로만 유지)
 
 ## 1. 논증의 구조
 
