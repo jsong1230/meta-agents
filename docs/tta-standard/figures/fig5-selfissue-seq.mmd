@@ -1,0 +1,9 @@
+sequenceDiagram
+    participant U as 사용자(위임자 = 발급자)
+    participant REG as 위임 레지스트리(블록체인)
+    participant AG as 에이전트
+    Note over U,AG: 전제 — 사용자·에이전트 DID 선등록
+    Note over U: ① 권한위임장 자체 서명 발급<br/>(권한 목록·한도·유효기간 지정)
+    U->>REG: ② register(권한위임정보) — 서명된 트랜잭션
+    REG-->>U: ③ 등록 확정(위임 ID는 산출 규칙에 따라 결정)
+    U->>AG: ④ 권한위임장 전달

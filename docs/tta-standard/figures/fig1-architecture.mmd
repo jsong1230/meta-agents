@@ -6,6 +6,7 @@ flowchart TD
         SP[서비스 제공자]
         AUD[감사자]
         subgraph BC[블록체인 네트워크]
+            DIDR[(DID 레지스트리)]
             REG[(위임 레지스트리<br/>DelegationRegistry)]
             LOG[(에이전트 이벤트 로그<br/>AgentEventLog)]
         end
@@ -14,7 +15,8 @@ flowchart TD
     ISS -->|① register 권한위임정보| REG
     ISS -->|② 위임장| AG
     AG -->|③④ 서비스 이용 요청| SP
-    SP -->|⑤ isValid id,scope,amount| REG
-    SP -->|⑥ 이벤트 로그 등록| LOG
-    LOG -->|⑦ query| AUD
+    SP -->|⑤ 퍼블릭키 조회| DIDR
+    SP -->|⑥ isValid id,scope,amount| REG
+    SP -->|⑦ 이벤트 로그 등록| LOG
+    LOG -->|⑧ query| AUD
     style STD stroke:#c00,stroke-width:2px,stroke-dasharray:6 4

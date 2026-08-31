@@ -5,5 +5,6 @@ sequenceDiagram
     participant AUD as 감사자
     SP->>LOG: ① 에이전트 이벤트 로그 생성·등록
     AUD->>LOG: ② 이벤트 로그 조회(위임ID/에이전트/기간)
-    AUD->>REG: ③ 권한위임정보 조회
-    Note over AUD: ④ 이벤트 로그 ↔ 권한위임정보 대조<br/>유효 위임 상태 행위 여부 판정
+    Note over AUD: ③ 기록 주체 확인<br/>신뢰 엔티티 목록 등재 여부(5.3.5)
+    AUD->>REG: ④ 권한위임정보 조회
+    Note over AUD: ⑤ 이벤트 로그 ↔ 권한위임정보 대조<br/>유효 위임 상태 행위 여부 판정

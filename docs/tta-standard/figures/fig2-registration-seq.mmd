@@ -3,9 +3,10 @@ sequenceDiagram
     participant ISS as 위임장 발급자
     participant REG as 위임 레지스트리(블록체인)
     participant AG as 에이전트
+    Note over U,AG: 전제 — 사용자·에이전트 DID 선등록,<br/>발급자 서버 사용 시 발급자의 신뢰 엔티티 목록 등재
     U->>ISS: ① 위임 발급 요청
     ISS->>U: ② 인증·승인 요청
     U->>ISS: ③ 인증정보·승인
-    ISS->>REG: ④ register(권한위임정보)
-    REG-->>ISS: ⑤ 위임 ID 반환 + 등록 이벤트
+    ISS->>REG: ④ register(권한위임정보) — 서명된 트랜잭션
+    REG-->>ISS: ⑤ 등록 확정(위임 ID는 산출 규칙에 따라 결정)
     ISS->>AG: ⑥ 권한위임장 발급

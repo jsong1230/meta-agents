@@ -1,11 +1,13 @@
 sequenceDiagram
     participant AG as 에이전트
     participant SP as 서비스 제공자
+    participant DIDR as DID 레지스트리(블록체인)
     participant BC as 블록체인 네트워크
     AG->>SP: ① 권한위임장 포함 서비스 이용 요청
-    Note over SP: ② 1차 검증(요청 유효성, 방식별 서명)
-    SP->>BC: ③ 위임정보 조회 / isValid(id, scope, amount)
-    BC-->>SP: ④ 권한위임정보 · 유효 여부 반환
-    Note over SP: ⑤ 2차 검증(권한범위·한도·기간·철회)
+    SP->>DIDR: ② 퍼블릭키 조회
+    Note over SP: ③ 1차 검증(위임장 검증)<br/>요청 서명·발급 주체·방식별 증표
+    SP->>BC: ④ 위임정보 조회 / isValid(id, scope, amount)
+    BC-->>SP: ⑤ 권한위임정보 · 유효 여부 반환
+    Note over SP: ⑥ 2차 검증(권한 검증)<br/>권한 목록·한도·유효기간·철회
     SP-->>AG: 사용자 서비스 제공
-    SP->>BC: ⑥ (필요 시) 누적 사용량 갱신(consume)
+    SP->>BC: ⑦ (필요 시) 누적 사용량 갱신(consume)
