@@ -1,6 +1,9 @@
 정보통신단체표준(국문표준)
 
-TTAx.xx-xx.xxxx/R1 (과제번호 2026-P1420)
+TTAx.xx-xx.xxxx/R1
+
+<!-- repo 주석(정본 docx 표지에는 없음): 과제번호 2026-1600(채택 후 부여) / 제안번호 2026-P1420(IPR 확약서 매핑 기준) -->
+
 
 ---
 
@@ -8,7 +11,8 @@ TTAx.xx-xx.xxxx/R1 (과제번호 2026-P1420)
 
 ## Blockchain-based Trust Framework for Agent Authority Delegation and Verification
 
-> draft v1.6 (2026-09-04) — PG1006 제43차 정기회의(2026-08-31) 심의 의견 반영(v1.5)에 더하여 구현팀 검토의견 5건을 반영한 제44차 3차 심의 예정본.
+> draft v1.6 (2026-09-04) — PG1006 제43차 정기회의(2026-08-31) 심의 의견 반영(v1.5)에 더하여 구현 적합성 검토 결과를 반영한 제44차 서면검토 제출본.
+> (2026-09-21 제출 완료 — 회의문서 2026PG1006-027)
 > 정본은 TTA 제출 docx이며, 본 파일은 repo 관리용 마크다운 사본이다.
 
 ---
@@ -45,7 +49,7 @@ Tel : 1551-1774, Fax : 031-724-0109
 - 위임 범위를 벗어난 행위를 차단·검증할 표준 절차가 없다(권한 초과).
 - 위임의 내용과 조건을 제3자가 검증할 수 없다(불투명성).
 - 행위 기록이 특정 사업자 내부에 종속되어 위·변조에 취약하다(감사 불가능).
-한편 에이전트 간 통신과 위임 토큰 형식을 다루는 국제 규격들은 위임자 본인의 인증·승인 절차를 범위에서 제외하고 있어, 사람이 위임을 승인하고 그 승인이 검증·감사 가능한 형태로 남는 구간이 규정되어 있지 아니하다.
+한편 에이전트 간 통신과 위임 토큰 형식을 다루는 국제 규격들은 위임자 본인의 인증·승인 절차를 범위에서 제외하고 있다. 이에 따라 사람이 위임을 승인하고 그 승인이 검증·감사 가능한 형태로 남는 구간은 규정되어 있지 아니하다.
 이 표준의 목적은 에이전트의 권한 초과 행위를 방지하고, 위임 범위의 투명성·무결성을 보장하며, 위임 이행 내역의 변조 불가능한 감사를 달성하여, 자율적 에이전트의 신뢰 가능한 대규모 상용화 기반을 마련하는 데 있다.
 
 ### 2 주요 내용 요약
@@ -71,7 +75,7 @@ As a result, the following problems arise.
 - There is no standard procedure to block or verify actions beyond the delegated scope (authority excess).
 - The content and conditions of a delegation cannot be verified by third parties (opacity).
 - Activity records are confined within individual service providers and are vulnerable to tampering (unauditability).
-Meanwhile, international specifications addressing agent-to-agent communication and delegation token formats exclude the delegator’s own authentication and approval procedure from their scope, leaving unspecified the segment in which a person approves a delegation and that approval remains verifiable and auditable.
+Meanwhile, international specifications addressing agent-to-agent communication and delegation token formats exclude the delegator’s own authentication and approval procedure from their scope. As a result, the segment in which a person approves a delegation and that approval remains verifiable and auditable is left unspecified.
 The purpose of this standard is to prevent authority-exceeding actions by an agent, to guarantee the transparency and integrity of the delegated scope, and to achieve tamper-evident auditing of delegation execution, thereby establishing a foundation for the trustworthy and large-scale commercialization of autonomous agents.
 
 ### 2 Summary
@@ -556,4 +560,4 @@ None
 - draft v1.3 : 5장 제목을 표준명과 일치시킴; 자유 부록 Ⅰ(권한위임장 발급 방식별 예시) 신설; 표준 작성 양식상 필수 부록인 부록 Ⅱ-5(영문표준 해설서) 추가
 - draft v1.4 : 3장 용어를 가나다순으로 전면 재정렬(에이전트 3.7~ / 위임 3.9~)하고 상호참조 갱신; 5.2.1 위임 철회 신설; 5.5 1차 검증에 발급 주체 검증 단계 명시; 5.1.1에 DID 레지스트리 추가; 5.5.1·5.6.1 위임장 방식별 절차 서술 구체화; 표 5-3 필드·표기 정비; 적용 범위의 비규범 서술 정리 및 제외 선언 분리; 인용 표준에 TLS(RFC 8446) 추가; 5.1 구조 서술을 (그림 5-1)의 용어와 일치
 - draft v1.5 : PG1006 제43차 회의(2026-08-31) 심의 의견 반영 — 신뢰 발급자 목록을 신뢰 엔티티 목록(서비스 제공자 포함)으로 확장하고 5.1.1 신뢰 관계·5.6 감사 절차를 이에 정합; 1장·7장을 개요/세부로 재편; 3장에 온체인 정의 신설; 권한위임정보를 위임장 수준·개별 권한 항목의 2계층으로 재구성; 검증을 1차(위임장 검증)·2차(권한 검증)로 명명; 사용자 직접 발급 시나리오(그림 6-2)와 데이터 모델 JSON 예시 추가; 그림·용어·표기 정비
-- draft v1.6 : 구현팀 검토의견 반영 — 3장에 무결성 앵커 정의를 신설하고 항 번호를 재부여; 자기완결형 증표를 사용하는 경우의 온체인 등록 방식(무결성 앵커·상태 정보) 및 앵커 반영 시점을 5.2 비고로 규정; 5.5에 증표와 온체인 권한위임정보의 불일치 시 거부와 판정 기준을 명시; 승인 요청·위임장 전달의 프로토콜 바인딩을 별도 프로파일로 분리; 참여 주체에 위임자 애플리케이션을 추가하고 신뢰 조건을 규정; 국제 규격이 위임자의 승인 절차를 범위에서 제외하고 있음을 서문에 명시하고 부록에 국제 규격과의 관계를 신설; 참고 문헌 보완
+- draft v1.6 : 구현 적합성 검토 반영 — 3장에 무결성 앵커 정의를 신설하고 항 번호를 재부여; 자기완결형 증표를 사용하는 경우의 온체인 등록 방식(무결성 앵커·상태 정보) 및 앵커 반영 시점을 5.2 비고로 규정; 5.5에 증표와 온체인 권한위임정보의 불일치 시 거부와 판정 기준을 명시; 승인 요청·위임장 전달의 프로토콜 바인딩을 별도 프로파일로 분리; 참여 주체에 위임자 애플리케이션을 추가하고 신뢰 조건을 규정; 국제 규격이 위임자의 승인 절차를 범위에서 제외하고 있음을 서문에 명시하고 부록에 국제 규격과의 관계를 신설; 참고 문헌 보완
