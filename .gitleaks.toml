@@ -1,0 +1,11 @@
+# gitleaks config for meta-agents
+# 기본 룰셋은 그대로 쓰고, 반복되는 오탐 문자열만 좁혀서 제외한다.
+[extend]
+useDefault = true
+
+[allowlist]
+description = "문서의 컨트랙트 필드 표기 — generic-api-key 오탐"
+regexes = [
+  # docs/tta-standard/patent-to-standard-mapping.md 청구항 15 행
+  '''TradeLogV2\.delegationId''',
+]
